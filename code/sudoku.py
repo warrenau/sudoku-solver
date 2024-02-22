@@ -7,55 +7,41 @@ remove_board = {}
 temp_board = {}
 #user_input = 0
 trials = 0
+
+# I think the input might work better as just one array or list input from the user, but I will leave it as single item for now
 for x in range(cols):
-    for y in range (rows):  
+    for y in range(rows):  
        u = u + 1         
-       board[(x+1,y+1)] = []
+       board[(x+1,y+1)] = []  # I dont like the indexing you are using. why have +1 on everything?
        print("digit", u)
        user_input = input()
-       if user_input == '1':    
-            board[(x+1,y+1)] = [1]
-       elif user_input == '2':
-            board[(x+1,y+1)] = [2]
-       elif user_input == '3':
-            board[(x+1,y+1)] = [3]
-       elif user_input == '4':
-            board[(x+1,y+1)] = [4]
-       elif user_input == '5':
-            board[(x+1,y+1)] = [5]
-       elif user_input == '6':
-            board[(x+1,y+1)] = [6]
-       elif user_input == '7':
-            board[(x+1,y+1)] = [7]
-       elif user_input == '8':
-            board[(x+1,y+1)] = [8]
-       elif user_input == '9':
-            board[(x+1,y+1)] = [9]
+       if user_input == "":
+          board[(x+1,y+1)] = list(range(1,10))
+       else:
+          board[(x+1,y+1)] = [int(user_input)]
        remove_board[(x+1,y+1)] = []
-       # below can be replaced with else board[(x+1,y+1)] = list(range(1,10))
-for x in range(cols):
-    for y in range (rows):
-       if len(board[(x+1,y+1)]) != 1:    
-            board[(x+1,y+1)] = list(range(1,10))
-for trials in range(5):
-    for x in range(cols):
+       
+
+for trials in range(5):     # for this, there should be some stop condition. a while loop based on the length of all of the board entries perhaps
+    for x in range(cols):   # I dont think we need to go through each cell three times
         for y in range (rows):
+            # test columns
             for j in range(cols):
                 if len(board[(j+1,y+1)]) == 1:
                     v = board[(j+1,y+1)]
                     g = v[0]
                     if v != board[(x+1,y+1)] and g not in remove_board[(x+1,y+1)]:
                         remove_board[(x+1,y+1)].append(g)
-    for x in range(cols):
-        for y in range (rows):
+
+            # test rows
             for i in range(rows):            
                 if len(board[(x+1,i+1)])== 1:
                     v = board[(x+1,i+1)]
                     g = v[0]
                     if v != board[(x+1,y+1)] and g not in remove_board[(x+1,y+1)]:
                         remove_board[(x+1,y+1)].append(g)
-    for x in range(cols):
-        for y in range (rows):
+
+            # test squares
             if x < 2.9 and y < 2.9:
                 for q in range(3):
                     for p in range(3):
@@ -128,10 +114,11 @@ for trials in range(5):
                             g = v[0]
                             if v != board[x+1,y+1] and g not in remove_board[(x+1,y+1)]:
                                 remove_board[(x+1,y+1)].append(g)   
-    for x in range(cols):
-        for y in range (rows):            
-            temp_board[(x+1,y+1)] = [t for t in board[(x+1,y+1)] if t not in remove_board[(x+1,y+1)]]
-    board = temp_board
+
+            # remove any values from main board that have been added to the remove list    
+            board[(x+1,y+1)] = [t for t in board[(x+1,y+1)] if t not in remove_board[(x+1,y+1)]]
+
+    # go through each cell again and test whether a number that has not been removed is in a cell in the same column or row
     for x in range(cols):
         for y in range(rows):
             if len(board[(x+1,y+1)]) != 1:
