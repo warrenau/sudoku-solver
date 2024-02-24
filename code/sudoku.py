@@ -22,8 +22,7 @@ def remove_check(column,row):
     # column and row are the inputs, which have different names depending on the test condition
     if len(board[(column,row)]) == 1:
         v = board[(column,row)]
-        g = v[0]
-        if v != board[(x,y)] and g not in remove_board[(x,y)]:
+        if v != board[(x,y)] and v[0] not in remove_board[(x,y)]:
             remove_board[(x,y)].append(g)
 
 # function for checking squares
