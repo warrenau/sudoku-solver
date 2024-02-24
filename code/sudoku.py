@@ -72,7 +72,7 @@ while max(board,key=len) > 1 and trials < 100:
             check_squares(x,y)
 
             # remove any values from main board that have been added to the remove list    
-            board[(x,y)] = [t for t in board[(x,y)] if t not in remove_board[(x,y)]]
+            board[(x,y)] = [t for t in board[(x,y)] if t not in remove_board[(x,y)]]  # this apparently doesnt work according to Marcel. need to test and maybe rewrite or add temp board back in.
 
     # go through each cell again and test whether a number that has not been removed is in a cell in the same column or row
     for x in range(cols):
