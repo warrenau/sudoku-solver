@@ -29,6 +29,8 @@ def remove_check(column,row):
 # function for checking squares
 def check_squares(x,y):
     # this function tests the sudoku squares for values that can be removed from the current cell
+    x+=0.5
+    y+=0.5
     x_bounds = [3*math.floor(x/3),3*math.ceil(x/3)]
     y_bounds = [3*math.floor(y/3),3*math.ceil(y/3)]
     for q in range(x_bounds[0],x_bounds[1]):
@@ -67,8 +69,8 @@ while max(board,key=len) > 1 and trials < 100:
             for i in range(rows):
                 remove_check(x,i)
 
-            # test squares -- will try to make a function. in the meantime, this should increase the y values first so the code has to check fewer times
-            check_squares(x,y)  
+            # test squares
+            check_squares(x,y)
 
             # remove any values from main board that have been added to the remove list    
             board[(x,y)] = [t for t in board[(x,y)] if t not in remove_board[(x,y)]]
@@ -79,7 +81,7 @@ while max(board,key=len) > 1 and trials < 100:
             if len(board[(x,y)]) != 1:
                 temp_list = [1, 2, 3, 4, 5, 6, 7, 8, 9]
                 for i in range(cols):
-                    for num in board[(x,i)]:
+                    for num in board[(x,i)]:   # shouldnt i replace x here? since x is also the columns. I guess it doesnt matter bc they are the same, but it is confusing
                         if num in temp_list and i != y:
                             temp_list.remove(num)
                     if len(temp_list) == 0:
