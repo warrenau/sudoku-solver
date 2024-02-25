@@ -1,6 +1,5 @@
 u = 0
 board = {}
-view_board = {}
 remove_board = {}
 temp_board = {}
 nine_list = [x for x in range(1,10)]
@@ -28,13 +27,13 @@ board[1,6] = [4]
 board[9,6] = [2]
 board[2,7] = [5]
 board[4,7] = [7]
-#board[5,7] = [3] # removing this cell becomes unsolvable
+board[5,7] = [3]
 board[9,8] = [8]
 board[1,9] = [6]
 board[5,9] = [9]
 board[7,9] = [3]
 board[8,9] = [1]
-#for y in nine_list: #receive the values of each cell from user
+#for y in nine_list: # 36 - 46 receive the values of each cell from user
 #    for x in nine_list:  
 #        u += 1         
 #        board[(x,y)] = []
@@ -45,34 +44,34 @@ board[8,9] = [1]
 #           board[(x,y)] = nine_list
 #        else:
 #            board[(x,y)] = [int(user_input)]
-for trials in range(10):  # 48 - 67 determine what values cannot exist in given cell
-    for x in nine_list:
+for trials in range(10):  
+    for x in nine_list: # 48-50 iterate over every cell that isnt already determined
         for y in nine_list:
             if len(board[(x,y)]) != 1:
-                for j in nine_list:
+                for j in nine_list: # 51-55 add the determined values in the cell's row to the remove list
                     if len(board[(j,y)]) == 1:
                         v = board[(j,y)]
                         if v != board[(x,y)] and v[0] not in remove_board[(x,y)]:
                             remove_board[(x,y)].append(v[0])
-                for i in nine_list:            
+                for i in nine_list: # 56-60 add the determined values in the cell's column to the remove list     
                     if len(board[(x,i)])== 1:
                         v = board[(x,i)]
                         if v != board[(x,y)] and v[0] not in remove_board[(x,y)]:
                             remove_board[(x,y)].append(v[0])              
-                for q in thre_list:
+                for q in thre_list: # 61-66 add the determined values in the cell's square to the remove list 
                     for p in thre_list:
                         if len(board[q+(x-1-((x-1) % 3)),p+(y-1-((y-1) % 3))]) == 1:
                             v = board[q+(x-1-((x-1) % 3)),p+(y-1-((y-1) % 3))]
                             if v != board[x,y] and v[0] not in remove_board[(x,y)]:
                                 remove_board[(x,y)].append(v[0]) 
-    for x in nine_list:  # 68 - 71 update the board to remove all non-possible digits
+    for x in nine_list:  # 67 - 70 update the board to remove all non-possible digits from the remove list
         for y in nine_list:            
             temp_board[(x,y)] = [t for t in board[(x,y)] if t not in remove_board[(x,y)]]
     board = temp_board
-    for x in nine_list: #72- 85 check every cell in each column for every cell. if all other cells in the column cant be X, then the cell you are looking at must be X
+    for x in nine_list: # 71-73 iterate over every cell that isnt already determined
         for y in nine_list:
-            if len(board[(x,y)]) != 1:
-                temp_list = [x for x in nine_list]
+            if len(board[(x,y)]) != 1: 
+                temp_list = [x for x in nine_list] #74- 84 check every cell in each column for every cell. if all other cells in the column cant be X, then the cell you are looking at must be X
                 for i in nine_list:
                     if i == y:
                         continue
@@ -81,12 +80,9 @@ for trials in range(10):  # 48 - 67 determine what values cannot exist in given 
                             temp_list.remove(num)
                     if len(temp_list) == 0:
                         break
-                if len(temp_list) == 1:
+                if len(temp_list) == 1: 
                     board[(x,y)] = temp_list
-    for x in nine_list: #86- 99 check every cell in each row for every cell. if all other cells in the row cant be X, then the cell you are looking at must be X
-        for y in nine_list:
-            if len(board[(x,y)]) != 1: # I would think these 3 lines could be removed but when i remove them it doesnt work
-                temp_list = [x for x in nine_list]
+                temp_list = [x for x in nine_list] #85- 95 check every cell in each row for every cell. if all other cells in the row cant be X, then the cell you are looking at must be X
                 for j in nine_list:
                     if x == j:
                         continue
@@ -97,10 +93,7 @@ for trials in range(10):  # 48 - 67 determine what values cannot exist in given 
                         break
                 if len(temp_list) == 1:
                     board[(x,y)] = temp_list
-    for x in nine_list: #100 - 115 check every cell in each square for every cell. if all other cells in the square cant be X, then the cell you are looking at must be X
-        for y in nine_list:
-            if len(board[(x,y)]) != 1: # these 3 lines too, not sure why they are necessary
-                temp_list = [x for x in nine_list]
+                temp_list = [x for x in nine_list] #96- 108 check every cell in each square for every cell. if all other cells in the square cant be X, then the cell you are looking at must be X
                 for q in thre_list:
                     for p in thre_list:
                         if q+(x-1-((x-1) % 3)) == x: 
@@ -113,13 +106,10 @@ for trials in range(10):  # 48 - 67 determine what values cannot exist in given 
                         break
                 if len(temp_list) == 1:
                     board[(x,y)] = temp_list
-for x in nine_list: # 116-121 generate a dictionary 'view board' thats easy to print
-    for y in nine_list:
-        if len(board[(x,y)]) == 1:
-            view_board[(x,y)] = board[(x,y)] 
+for y in nine_list: # 109- 115 Print the board with X's where the value is not determined.
+    for x in nine_list: 
+        if len(board [(x,y)]) == 1:
+            print(board[(x,y)], end= '  ')
         else:
-           view_board[(x,y)] = 'x'
-for y in nine_list: #122- 125 print the board
-    for x in nine_list:
-        print(view_board[(x,y)], end= '  ')
+            print("x", end='  ')
     print()
