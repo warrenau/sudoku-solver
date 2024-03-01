@@ -29,7 +29,7 @@ board[1,6] = [4]
 board[9,6] = [2]
 board[2,7] = [5]
 board[4,7] = [7]
-board[5,7] = [3] # This value can be added/removed to make the board solvable/unsolvable
+#board[5,7] = [3] # This value can be added/removed to make the board solvable/unsolvable
 board[9,8] = [8]
 board[1,9] = [6]
 board[5,9] = [9]
@@ -119,3 +119,4 @@ for y in nine_list: # 115- 121 Print the board with X's where the value is not d
         else:
             print("x", end='  ')
     print()
+print(board)
